@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/navbar/navbar";
 
 function Home() {
   return (
     <>
+      <Navbar />
       {/** First Part */}
       <div className="  z-20 flex items-center overflow-hidden bg-gray-200 dark:bg-gray-800">
         <div className="container   flex px-6 py-16 mx-auto">

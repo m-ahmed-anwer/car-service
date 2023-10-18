@@ -5,7 +5,6 @@ import Navbar from "../components/navbar/navbar";
 function Outlayer() {
   return (
     <Fragment>
-      <Navbar />
       <Outlet />
     </Fragment>
   );

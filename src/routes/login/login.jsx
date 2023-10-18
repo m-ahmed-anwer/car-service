@@ -6,11 +6,13 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import Navbar from "../../components/navbar/navbar";
 
 function Login() {
   const [showPass, setShowPass] = useState(false);
   return (
     <>
+      <Navbar/>
       <section className=" bg-slate-50  flex flex-wrap lg:h-screen lg:items-center">
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
