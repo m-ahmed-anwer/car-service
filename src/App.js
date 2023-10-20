@@ -10,6 +10,7 @@ import Admin from "./routes/landing-page/admin/admin";
 import AdminSignUp from "./routes/landing-page/admin/admin.signup";
 import { AdminContext } from "./context/admin-details";
 import AdminRoute from "./routes/admin-pannel/dashboard/admin-dashboard-route";
+import CustomerRoute from "./routes/admin-pannel/customer-dashboard/customer-dash";
 
 function App() {
   const { currentUser } = useContext(AdminContext);
@@ -28,6 +29,12 @@ function App() {
           path="/admin-dashboard/*"
           // element={currentUser ? <AdminRoute /> : <Navigate to="/admin" />}
           element={<AdminRoute />}
+        />
+
+        <Route
+          path="/customer-dashboard/*"
+          // element={currentUser ? <AdminRoute /> : <Navigate to="/admin" />}
+          element={<CustomerRoute />}
         />
       </Route>
     </Routes>
