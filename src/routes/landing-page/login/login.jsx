@@ -46,7 +46,7 @@ function Login() {
     }
     setErrorCheck(check);
     console.log(data);
-    navigate("/");
+    navigate("/customer-dashboard/");
   };
   return (
     <>
