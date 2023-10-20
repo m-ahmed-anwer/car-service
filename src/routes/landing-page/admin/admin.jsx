@@ -4,11 +4,47 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 
-import React, { useState } from "react";
-import Navbar from "../../components/navbar/navbar";
+import React, { useContext, useState } from "react";
+import Navbar from "../../../components/navbar/navbar";
+import { Link, useNavigate } from "react-router-dom";
+import { AdminContext } from "../../../context/admin-details";
+const formData = {
+  username: "",
+  password: "",
+};
 
+const check = {
+  username: false,
+  password: false,
+};
 function Admin() {
   const [showPass, setShowPass] = useState(false);
+  const [data, setData] = useState(formData);
+  const [errorCheck, setErrorCheck] = useState(check);
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(AdminContext);
+
+  const handleChange = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    if (!data.username) {
+      setErrorCheck({ ...errorCheck, username: true });
+      return;
+    }
+    if (!data.password) {
+      setErrorCheck({ ...errorCheck, password: true });
+      return;
+    }
+
+    setCurrentUser(data);
+    setErrorCheck(check);
+    navigate("/admin-dashboard");
+  };
+
   return (
     <>
       <Navbar />
@@ -19,7 +55,7 @@ function Admin() {
           </h1>
 
           <form
-            action=""
+            onSubmit={submitHandler}
             className="bg-gray-50 mb-0 py-10 mt-6 space-y-10 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
           >
             <p className="text-center text-lg font-medium">
@@ -27,33 +63,38 @@ function Admin() {
             </p>
 
             <div>
-              <label htmlFor="email " className="text-gray-700 text-md m-3">
-                Username
-              </label>
+              <label className="text-gray-700 text-md m-3">Username</label>
 
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
+                  name="username"
                   className="w-full rounded-lg mt-2 border-gray-200  border p-3 pe-8 text-sm shadow-sm"
-                  placeholder="Enter email"
+                  placeholder="Enter username"
+                  value={data.username}
+                  onChange={handleChange}
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                   <AtSymbolIcon className="h-4 w-4 text-gray-400" />
                 </span>
               </div>
+              {errorCheck.username && (
+                <p className="text-red-500 text-xs italic">Fill this feild.</p>
+              )}
             </div>
 
             <div>
-              <label htmlFor="password " className="text-gray-700 text-md m-3">
-                Password
-              </label>
+              <label className="text-gray-700 text-md m-3">Password</label>
 
               <div className="relative">
                 <input
                   type={`${!showPass ? "password" : "text"}`}
+                  name="password"
                   className="w-full rounded-lg mt-2 border-gray-200 p-3 border  pe-8 text-sm shadow-sm"
                   placeholder="Enter password"
+                  value={data.password}
+                  onChange={handleChange}
                 />
 
                 <span
@@ -69,6 +110,11 @@ function Admin() {
                   )}
                 </span>
               </div>
+              {errorCheck.password && (
+                <p className="text-red-500 text-xs italic">
+                  Password need to contain atleat 6 characters.
+                </p>
+              )}
             </div>
 
             <button
@@ -81,6 +127,12 @@ function Admin() {
                 Log In
               </span>
             </button>
+            <p className="text-center text-sm text-gray-500">
+              No account?{" "}
+              <Link to={"/admin-signup"} className="underline">
+                Create An Admin Account
+              </Link>
+            </p>
           </form>
         </div>
       </div>

@@ -5,14 +5,52 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
-import Navbar from "../../components/navbar/navbar";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../../../components/navbar/navbar";
+const formData = {
+  email: "",
+  password: "",
+};
+const check = {
+  email: false,
+  password: false,
+};
 
 function Login() {
+  const [data, setData] = useState(formData);
   const [showPass, setShowPass] = useState(false);
+  const [errorCheck, setErrorCheck] = useState(check);
+  const navigate = useNavigate();
+  const isEmailValid = (email) => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+  };
+  const isPasswordValid = (password) => {
+    return password.length >= 6;
+  };
+
+  const handleChange = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (!isEmailValid(data.email)) {
+      setErrorCheck({ ...errorCheck, email: true });
+      return;
+    }
+
+    if (!isPasswordValid(data.password)) {
+      setErrorCheck({ ...errorCheck, password: true });
+      return;
+    }
+    setErrorCheck(check);
+    console.log(data);
+    navigate("/");
+  };
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <section className=" bg-slate-50  flex flex-wrap lg:h-screen lg:items-center">
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
@@ -25,7 +63,11 @@ function Login() {
             </p>
           </div>
 
-          <form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+          <form
+            action=""
+            className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+            onSubmit={submitHandler}
+          >
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -34,14 +76,23 @@ function Login() {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
                   className="w-full rounded-lg border-gray-100 border p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter email"
+                  value={data.email}
+                  onChange={handleChange}
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                   <AtSymbolIcon className="h-4 w-4 text-gray-400" />
                 </span>
               </div>
+
+              {errorCheck.email && (
+                <p className="text-red-500 text-xs italic">
+                  Incorrect E-mail format.
+                </p>
+              )}
             </div>
 
             <div>
@@ -52,8 +103,11 @@ function Login() {
               <div className="relative">
                 <input
                   type={`${!showPass ? "password" : "text"}`}
+                  name="password"
                   className="w-full rounded-lg border-gray-100 border p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter password"
+                  value={data.password}
+                  onChange={handleChange}
                 />
 
                 <span
@@ -69,6 +123,11 @@ function Login() {
                   )}
                 </span>
               </div>
+              {errorCheck.password && (
+                <p className="text-red-500 text-xs italic">
+                  Password need to contain atleat 6 characters.
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-between pt-5">

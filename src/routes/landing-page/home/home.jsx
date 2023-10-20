@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/navbar/navbar";
+import Navbar from "../../../components/navbar/navbar";
 
 function Home() {
   return (
@@ -21,10 +21,14 @@ function Home() {
             </p>
             <div className="flex mt-8">
               <Link
-                to={""}
-                className="px-4 py-2 mr-4 text-white  bg-purple-600 border-2 border-transparent rounded-lg text-md hover:bg-purple-700"
+                className="group relative inline-block focus:outline-none focus:ring"
+                to={"/"}
               >
-                Get Your Service
+                <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-purple-400 transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
+
+                <span className="relative inline-block border-2 border-current px-5 py-2 text-sm font-bold uppercase tracking-widest text-black group-active:text-opacity-75">
+                  Get Your Service Now
+                </span>
               </Link>
             </div>
           </div>
@@ -37,20 +41,20 @@ function Home() {
         </div>
       </div>
       {/** Second Part */}
-      <div class="bg-slate-100 pt-10 pb-16 flex-wrap items-center justify-center gap-8 text-center sm:flex">
+      <div className="bg-slate-100 pt-10 pb-16 flex-wrap items-center justify-center gap-8 text-center sm:flex">
         <div className="text-center w-full mx-auto mt-10">
           <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">
             <span className="block">Our Services</span>
           </h2>
         </div>
-        <div class="w-full px-4 py-4 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 dark:bg-gray-800">
-          <div class="flex-shrink-0">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
+        <div className="w-full px-4 py-4 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 dark:bg-gray-800">
+          <div className="flex-shrink-0">
+            <div className="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
               <svg
                 width="20"
                 height="20"
                 fill="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
                 viewBox="0 0 1792 1792"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -58,22 +62,22 @@ function Home() {
               </svg>
             </div>
           </div>
-          <h3 class="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
+          <h3 className="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
             Vehicle Maintenance
           </h3>
-          <p class="py-4 text-gray-500 text-md dark:text-gray-300">
+          <p className="py-4 text-gray-500 text-md dark:text-gray-300">
             Comprehensive vehicle maintenance solutions to keep your ride in
             top-notch condition.
           </p>
         </div>
-        <div class="w-full px-4 py-4 mt-6 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 sm:mt-16 md:mt-20 lg:mt-24 dark:bg-gray-800">
-          <div class="flex-shrink-0">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
+        <div className="w-full px-4 py-4 mt-6 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 sm:mt-16 md:mt-20 lg:mt-24 dark:bg-gray-800">
+          <div className="flex-shrink-0">
+            <div className="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
               <svg
                 width="20"
                 height="20"
                 fill="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
                 viewBox="0 0 1792 1792"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -81,22 +85,22 @@ function Home() {
               </svg>
             </div>
           </div>
-          <h3 class="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
+          <h3 className="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
             Branding and Repairs
           </h3>
-          <p class="py-4 text-gray-500 text-md dark:text-gray-300">
+          <p className="py-4 text-gray-500 text-md dark:text-gray-300">
             Enhance your vehicle's image with our branding services, including
             repairs and customization.
           </p>
         </div>
-        <div class="w-full px-4 py-4 mt-6 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 dark:bg-gray-800">
-          <div class="flex-shrink-0">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
+        <div className="w-full px-4 py-4 mt-6 bg-white rounded-lg shadow-lg sm:w-1/2 md:w-1/2 lg:w-1/4 dark:bg-gray-800">
+          <div className="flex-shrink-0">
+            <div className="flex items-center justify-center w-12 h-12 mx-auto text-white bg-purple-500 rounded-md">
               <svg
                 width="20"
                 height="20"
                 fill="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
                 viewBox="0 0 1792 1792"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -104,10 +108,10 @@ function Home() {
               </svg>
             </div>
           </div>
-          <h3 class="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
+          <h3 className="py-4 text-2xl font-semibold text-gray-700 sm:text-xl dark:text-white">
             SEO-Optimized Services
           </h3>
-          <p class="py-4 text-gray-500 text-md dark:text-gray-300">
+          <p className="py-4 text-gray-500 text-md dark:text-gray-300">
             Boost your vehicle's online presence with our SEO-optimized
             marketing strategies.
           </p>
@@ -132,7 +136,7 @@ function Home() {
               <div className="flex flex-col justify-center mt-2">
                 <p className="text-lg font-bold">Oliver Aguilerra</p>
                 <p className="mb-4 text-xs text-gray-800">Service Manager</p>
-                <p className="text-sm tracking-wide text-gray-800">
+                <p className="text-sm tracking-wide text-gray-600">
                   Experienced in overseeing car service operations and ensuring
                   customer satisfaction. Skilled in managing a team and
                   optimizing service processes.
@@ -150,7 +154,7 @@ function Home() {
                 <p className="mb-4 text-xs text-gray-800">
                   Automotive Technician
                 </p>
-                <p className="text-sm tracking-wide text-gray-800">
+                <p className="text-sm tracking-wide text-gray-600">
                   Specialized in diagnosing and repairing vehicle issues.
                   Committed to delivering high-quality service and ensuring
                   vehicles are in optimal condition.
@@ -168,7 +172,7 @@ function Home() {
                 <p className="mb-4 text-xs text-gray-800">
                   Customer Service Specialist
                 </p>
-                <p className="text-sm tracking-wide text-gray-800">
+                <p className="text-sm tracking-wide text-gray-600">
                   Dedicated to providing excellent customer service in the
                   automotive industry. Proficient in addressing customer
                   inquiries and resolving issues promptly.
@@ -186,7 +190,7 @@ function Home() {
                 <p className="mb-4 text-xs text-gray-800">
                   Marketing and Sales Specialist
                 </p>
-                <p className="text-sm tracking-wide text-gray-800">
+                <p className="text-sm tracking-wide text-gray-600">
                   Experienced in promoting car services and products. Skilled in
                   developing marketing strategies and increasing sales in the
                   automotive sector.

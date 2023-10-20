@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../navbar/navbar";
 
 function NotFound() {
   return (
     <>
+      <Navbar />
       <main className="h-screen w-full flex flex-col justify-center items-center bg-gray-100">
         <h1 className="text-9xl font-extrabold text-gray-800 tracking-widest">
           404
