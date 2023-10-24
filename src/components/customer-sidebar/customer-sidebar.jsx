@@ -49,7 +49,9 @@ function CustomerSidebar() {
                 <span className="text-left">
                   <WrenchScrewdriverIcon className="w-6 h-6" />
                 </span>
-                <span className="mx-2 text-sm font-normal">New Service</span>
+                <span className="mx-2 text-sm font-normal">
+                  Add New Service
+                </span>
               </Link>
               <Link
                 to={"ongoing-services"}

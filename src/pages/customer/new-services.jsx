@@ -1,9 +1,54 @@
-import React from "react";
-import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
+import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const vehicleForm = {
+  brand: "",
+  model: "",
+  yom: "",
+  fuel: "",
+  transmission: "",
+  mileage: "",
+  full_name: "",
+  email: "",
+  phone: "",
+};
+const check = {
+  vehicle: false,
+};
 
 function Services() {
+  const [data, setData] = useState(vehicleForm);
+  const [errorCheck, setErrorCheck] = useState(check);
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    if (
+      !data.brand ||
+      !data.model ||
+      !data.yom ||
+      !data.fuel ||
+      !data.transmission ||
+      !data.mileage ||
+      !data.mileage
+    ) {
+      setErrorCheck({ ...errorCheck, vehicle: true });
+      return;
+    }
+
+    setErrorCheck(check);
+    setOpen(true);
+
+    console.log("first");
+  };
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <div className="h-screen px-4 pb-24 overflow-auto md:px-6">
@@ -16,197 +61,267 @@ function Services() {
         </h2>
 
         <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2 lg:grid-cols-3">
-          <div className="w-full">
-            <div className="relative w-full px-4 py-6 bg-white shadow-xl rounded-xl dark:bg-gray-700">
-              <p className="text-sm font-semibold text-gray-700 border-b border-gray-200 w-max dark:text-white">
-                Tire Changing
-              </p>
-              <div className="flex items-end my-6 space-x-2">
-                <p className="text-2xl font-bold text-black dark:text-white">
-                  BMW
+          {/* <form onSubmit={submitHandler}>
+            <div className="grid gap-4 text-sm grid-cols-1 lg:grid-cols-3 mt-10 pb-10 w-screen max-w-md-fukk ">
+              <div className="text-gray-600">
+                <p className="font-medium text-lg text-black">
+                  Vehicle Details
                 </p>
-                <span className="flex items-center text-xl  text-gray-700">
-                  X5
-                </span>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Transmission- Automatic</p>
-                <div className="flex items-end text-xs">Year- 2023</div>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Mileage- 10000km</p>
-                <div className="flex items-end text-xs">Fuel- Petrol</div>
+                <p>Please fill out all the fields.</p>
               </div>
 
-              <div className="">
-                <p className="text-sm font-semibold my-5 text-purple-950 ">
-                  Customer Details
-                </p>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Name</p>
-                  <div className="flex items-end text-xs">Ahmed Anwer</div>
-                </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Phone Number</p>
-                  <div className="flex items-end text-xs">0775497079</div>
-                </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Email</p>
-                  <div className="flex items-end text-xs ">
-                    ahmedanwer0094@gmail.com
+              <div className="lg:col-span-2 mt-5">
+                <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                  <div className="md:col-span-2">
+                    <label>Vehicle Brand</label>
+                    <input
+                      type="text"
+                      name="brand"
+                      placeholder="BMW"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.brand}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label>Vehicle Model</label>
+                    <input
+                      type="text"
+                      name="model"
+                      placeholder="X5"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.model}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label>Year of Manufacture</label>
+                    <input
+                      type="number"
+                      name="yom"
+                      placeholder="2023"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.yom}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label>Fuel Type</label>
+                    <input
+                      type="text"
+                      name="fuel"
+                      placeholder="Petrol"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.fuel}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label>Transmission</label>
+                    <input
+                      type="text"
+                      name="transmission"
+                      placeholder="Automatic"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.transmission}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label>Mileage</label>
+                    <input
+                      type="number"
+                      name="mileage"
+                      placeholder="10000"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                      value={data.mileage}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    {errorCheck.vehicle && (
+                      <p className="text-red-500 text-xs italic">
+                        Feilds cannot be empty, Please check all the feilds.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="md:col-span-5  mt-8 ">
+                    <button
+                      className="group relative inline-block  focus:outline-none focus:ring"
+                      type="submit"
+                    >
+                      <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-purple-300 transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
+
+                      <span className="relative inline-block border-2 border-current px-5 py-2 text-sm font-bold uppercase tracking-widest text-black group-active:text-opacity-75">
+                        Add a New Service
+                      </span>
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-end my-5 space-x-2">
-                  <span className="flex items-center text-md  text-gray-700">
-                    Sub-Total
-                  </span>
-                  <p className="text-xl font-bold text-black dark:text-white">
-                    Rs. 10000.00
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  class="py-1 my-3   bg-purple-600 hover:bg-purple-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Take Order
-                </button>
-                <button
-                  type="button"
-                  class="py-1 my-3  bg-red-600 hover:bg-red-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Drop
-                </button>
               </div>
             </div>
-          </div>
-          <div className="w-full">
-            <div className="relative w-full px-4 py-6 bg-white shadow-xl rounded-xl dark:bg-gray-700">
-              <p className="text-sm font-semibold text-gray-700 border-b border-gray-200 w-max dark:text-white">
-                Tire Changing
+          </form> */}
+          <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
+            <form action="" className="space-y-4">
+              <div>
+                <label>Name</label>
+                <input
+                  className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                  placeholder="Name"
+                  type="text"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label>Email</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Email address"
+                    type="email"
+                  />
+                </div>
+
+                <div>
+                  <label>Phone</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Phone Number"
+                    type="tel"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
+                <div>
+                  <input
+                    className="peer sr-only"
+                    type="radio"
+                    tabIndex="-1"
+                    name="option"
+                  />
+
+                  <label
+                    htmlFor="option1"
+                    className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
+                    tabIndex="0"
+                  >
+                    <span className="text-sm"> Option 1 </span>
+                  </label>
+                </div>
+
+                <div>
+                  <input
+                    className="peer sr-only"
+                    type="radio"
+                    tabIndex="-1"
+                    name="option"
+                  />
+
+                  <label
+                    htmlFor="option2"
+                    className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
+                    tabIndex="0"
+                  >
+                    <span className="text-sm"> Option 2 </span>
+                  </label>
+                </div>
+
+                <div>
+                  <input
+                    className="peer sr-only"
+                    type="radio"
+                    tabIndex="-1"
+                    name="option"
+                  />
+
+                  <label
+                    htmlFor="option3"
+                    className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
+                    tabIndex="0"
+                  >
+                    <span className="text-sm"> Option 3 </span>
+                  </label>
+                </div>
+              </div>
+              <p className="font-medium text-lg text-black py-4">
+                Vehicle Details
               </p>
-              <div className="flex items-end my-6 space-x-2">
-                <p className="text-2xl font-bold text-black dark:text-white">
-                  BMW
-                </p>
-                <span className="flex items-center text-xl  text-gray-700">
-                  X5
-                </span>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Transmission- Automatic</p>
-                <div className="flex items-end text-xs">Year- 2023</div>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Mileage- 10000km</p>
-                <div className="flex items-end text-xs">Fuel- Petrol</div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label>Brand</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Brand"
+                    type="text"
+                  />
+                </div>
+                <div>
+                  <label>Model</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Model"
+                    type="text"
+                  />
+                </div>
               </div>
 
-              <div className="">
-                <p className="text-sm font-semibold my-5 text-purple-950 ">
-                  Customer Details
-                </p>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Name</p>
-                  <div className="flex items-end text-xs">Ahmed Anwer</div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label>Year of Manufacture</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="YOM"
+                    type="number"
+                  />
                 </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Phone Number</p>
-                  <div className="flex items-end text-xs">0775497079</div>
+                <div>
+                  <label>Mileage</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Mileage"
+                    type="number"
+                  />
                 </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Email</p>
-                  <div className="flex items-end text-xs ">
-                    ahmedanwer0094@gmail.com
-                  </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label>Fuel Type</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Fuel Type"
+                    type="number"
+                  />
                 </div>
-                <div className="flex items-end my-5 space-x-2">
-                  <span className="flex items-center text-md  text-gray-700">
-                    Sub-Total
+                <div>
+                  <label>Transmission</label>
+                  <input
+                    className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
+                    placeholder="Transmission"
+                    type="number"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <button
+                  className="group relative inline-block  focus:outline-none focus:ring"
+                  type="submit"
+                >
+                  <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-purple-300 transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
+
+                  <span className="relative inline-block border-2 border-current px-5 py-2 text-sm font-bold uppercase tracking-widest text-black group-active:text-opacity-75">
+                    Add a New Service
                   </span>
-                  <p className="text-xl font-bold text-black dark:text-white">
-                    Rs. 10000.00
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  class="py-1 my-3   bg-purple-600 hover:bg-purple-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Take Order
-                </button>
-                <button
-                  type="button"
-                  class="py-1 my-3  bg-red-600 hover:bg-red-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Drop
                 </button>
               </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className="relative w-full px-4 py-6 bg-white shadow-xl rounded-xl dark:bg-gray-700">
-              <p className="text-sm font-semibold text-gray-700 border-b border-gray-200 w-max dark:text-white">
-                Tire Changing
-              </p>
-              <div className="flex items-end my-6 space-x-2">
-                <p className="text-2xl font-bold text-black dark:text-white">
-                  BMW
-                </p>
-                <span className="flex items-center text-xl  text-gray-700">
-                  X5
-                </span>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Transmission- Automatic</p>
-                <div className="flex items-end text-xs">Year- 2023</div>
-              </div>
-              <div className="flex items-center justify-between pb-2 mb-2 text-sm border-b border-gray-200 sm:space-x-12">
-                <p>Mileage- 10000km</p>
-                <div className="flex items-end text-xs">Fuel- Petrol</div>
-              </div>
-
-              <div className="">
-                <p className="text-sm font-semibold my-5 text-purple-950 ">
-                  Customer Details
-                </p>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Name</p>
-                  <div className="flex items-end text-xs">Ahmed Anwer</div>
-                </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Phone Number</p>
-                  <div className="flex items-end text-xs">0775497079</div>
-                </div>
-                <div className="flex items-center justify-between pb-2 mb-2 space-x-12 text-sm border-b border-gray-200 md:space-x-24">
-                  <p>Email</p>
-                  <div className="flex items-end text-xs ">
-                    ahmedanwer0094@gmail.com
-                  </div>
-                </div>
-                <div className="flex items-end my-5 space-x-2">
-                  <span className="flex items-center text-md  text-gray-700">
-                    Sub-Total
-                  </span>
-                  <p className="text-xl font-bold text-black dark:text-white">
-                    Rs. 10000.00
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  class="py-1 my-3   bg-purple-600 hover:bg-purple-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Take Order
-                </button>
-                <button
-                  type="button"
-                  class="py-1 my-3  bg-red-600 hover:bg-red-700  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                >
-                  Drop
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
