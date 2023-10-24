@@ -15,27 +15,45 @@ const vehicleForm = {
 };
 const check = {
   vehicle: false,
+  repair: false,
 };
 
 function Services() {
   const [data, setData] = useState(vehicleForm);
   const [errorCheck, setErrorCheck] = useState(check);
+  const [selectedRepair, setSelectedRepair] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
+    const { name, value, type } = event.target;
+
+    if (type === "radio" && name === "repair") {
+      setSelectedRepair(value);
+    } else {
+      setData({ ...data, [name]: value });
+    }
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (!selectedRepair) {
+      setErrorCheck({ ...errorCheck, repair: true });
+      return;
+    } else {
+      setErrorCheck({ ...errorCheck, repair: false });
+    }
+
     if (
+      !data.full_name ||
+      !data.email ||
+      !data.phone ||
       !data.brand ||
       !data.model ||
       !data.yom ||
       !data.fuel ||
       !data.transmission ||
-      !data.mileage ||
       !data.mileage
     ) {
       setErrorCheck({ ...errorCheck, vehicle: true });
@@ -43,11 +61,9 @@ function Services() {
     }
 
     setErrorCheck(check);
-    setOpen(true);
-
-    console.log("first");
+    console.log("data");
+    console.log(data);
   };
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -61,118 +77,17 @@ function Services() {
         </h2>
 
         <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* <form onSubmit={submitHandler}>
-            <div className="grid gap-4 text-sm grid-cols-1 lg:grid-cols-3 mt-10 pb-10 w-screen max-w-md-fukk ">
-              <div className="text-gray-600">
-                <p className="font-medium text-lg text-black">
-                  Vehicle Details
-                </p>
-                <p>Please fill out all the fields.</p>
-              </div>
-
-              <div className="lg:col-span-2 mt-5">
-                <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                  <div className="md:col-span-2">
-                    <label>Vehicle Brand</label>
-                    <input
-                      type="text"
-                      name="brand"
-                      placeholder="BMW"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.brand}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label>Vehicle Model</label>
-                    <input
-                      type="text"
-                      name="model"
-                      placeholder="X5"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.model}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label>Year of Manufacture</label>
-                    <input
-                      type="number"
-                      name="yom"
-                      placeholder="2023"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.yom}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label>Fuel Type</label>
-                    <input
-                      type="text"
-                      name="fuel"
-                      placeholder="Petrol"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.fuel}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label>Transmission</label>
-                    <input
-                      type="text"
-                      name="transmission"
-                      placeholder="Automatic"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.transmission}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <label>Mileage</label>
-                    <input
-                      type="number"
-                      name="mileage"
-                      placeholder="10000"
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.mileage}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    {errorCheck.vehicle && (
-                      <p className="text-red-500 text-xs italic">
-                        Feilds cannot be empty, Please check all the feilds.
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-5  mt-8 ">
-                    <button
-                      className="group relative inline-block  focus:outline-none focus:ring"
-                      type="submit"
-                    >
-                      <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-purple-300 transition-transform group-hover:translate-y-0 group-hover:translate-x-0"></span>
-
-                      <span className="relative inline-block border-2 border-current px-5 py-2 text-sm font-bold uppercase tracking-widest text-black group-active:text-opacity-75">
-                        Add a New Service
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form> */}
-          <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-            <form action="" className="space-y-4">
+          <div className="rounded-lg bg-white p-8 shadow-lg col-span-3 lg:p-12">
+            <form onSubmit={submitHandler} className="space-y-4">
               <div>
                 <label>Name</label>
                 <input
                   className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                   placeholder="Name"
                   type="text"
+                  name="full_name"
+                  value={data.full_name}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -183,6 +98,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Email address"
                     type="email"
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -192,6 +110,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Phone Number"
                     type="tel"
+                    value={data.phone}
+                    name="phone"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -202,15 +123,19 @@ function Services() {
                     className="peer sr-only"
                     type="radio"
                     tabIndex="-1"
-                    name="option"
+                    value={"Full Service"}
+                    name="repair"
+                    id="fullService"
+                    onChange={handleChange}
+                    checked={selectedRepair === "Full Service"}
                   />
 
                   <label
-                    htmlFor="option1"
+                    htmlFor="fullService"
                     className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
                     tabIndex="0"
                   >
-                    <span className="text-sm"> Option 1 </span>
+                    <span className="text-sm"> Full Service</span>
                   </label>
                 </div>
 
@@ -219,15 +144,19 @@ function Services() {
                     className="peer sr-only"
                     type="radio"
                     tabIndex="-1"
-                    name="option"
+                    value={"Oil Change"}
+                    name="repair"
+                    id="oilChange"
+                    onChange={handleChange}
+                    checked={selectedRepair === "Oil Change"}
                   />
 
                   <label
-                    htmlFor="option2"
+                    htmlFor="oilChange"
                     className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
                     tabIndex="0"
                   >
-                    <span className="text-sm"> Option 2 </span>
+                    <span className="text-sm"> Oil Change </span>
                   </label>
                 </div>
 
@@ -236,18 +165,23 @@ function Services() {
                     className="peer sr-only"
                     type="radio"
                     tabIndex="-1"
-                    name="option"
+                    value={"Tire Change"}
+                    name="repair"
+                    id="tireChange"
+                    onChange={handleChange}
+                    checked={selectedRepair === "Tire Change"}
                   />
 
                   <label
-                    htmlFor="option3"
+                    htmlFor="tireChange"
                     className="block w-full rounded-lg border border-gray-200 p-3 hover:bg-slate-100 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
                     tabIndex="0"
                   >
-                    <span className="text-sm"> Option 3 </span>
+                    <span className="text-sm">Tire Change</span>
                   </label>
                 </div>
               </div>
+
               <p className="font-medium text-lg text-black py-4">
                 Vehicle Details
               </p>
@@ -259,6 +193,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Brand"
                     type="text"
+                    value={data.brand}
+                    name="brand"
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -267,6 +204,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Model"
                     type="text"
+                    value={data.model}
+                    name="model"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -278,6 +218,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="YOM"
                     type="number"
+                    value={data.yom}
+                    name="yom"
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -286,6 +229,9 @@ function Services() {
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Mileage"
                     type="number"
+                    value={data.mileage}
+                    onChange={handleChange}
+                    name="mileage"
                   />
                 </div>
               </div>
@@ -296,7 +242,10 @@ function Services() {
                   <input
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Fuel Type"
-                    type="number"
+                    type="text"
+                    value={data.fuel}
+                    onChange={handleChange}
+                    name="fuel"
                   />
                 </div>
                 <div>
@@ -304,10 +253,23 @@ function Services() {
                   <input
                     className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                     placeholder="Transmission"
-                    type="number"
+                    type="text"
+                    name="transmission"
+                    value={data.transmission}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
+              {errorCheck.vehicle && (
+                <p className="text-red-500 text-xs italic">
+                  Feilds cannot be empty, Please check all the feilds.
+                </p>
+              )}
+              {errorCheck.repair && (
+                <p className="text-red-500 text-xs italic">
+                  Please select a repair option.
+                </p>
+              )}
 
               <div className="mt-4">
                 <button

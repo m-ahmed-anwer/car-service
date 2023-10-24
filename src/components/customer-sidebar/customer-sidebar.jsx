@@ -35,7 +35,7 @@ function CustomerSidebar() {
                 <span className="text-left">
                   <HomeIcon className="w-6 h-6" />
                 </span>
-                <span className="mx-2 text-sm font-normal">Home</span>
+                <span className="mx-2 text-sm font-normal">My Profile</span>
               </Link>
               <Link
                 to={"new-service"}
@@ -49,9 +49,7 @@ function CustomerSidebar() {
                 <span className="text-left">
                   <WrenchScrewdriverIcon className="w-6 h-6" />
                 </span>
-                <span className="mx-2 text-sm font-normal">
-                  Add New Service
-                </span>
+                <span className="mx-2 text-sm font-normal">Any Repairs</span>
               </Link>
               <Link
                 to={"ongoing-services"}
@@ -84,20 +82,6 @@ function CustomerSidebar() {
                 <span className="mx-4 text-sm font-normal">
                   Finished Services
                 </span>
-              </Link>
-              <Link
-                to={"profile"}
-                className={`flex items-center justify-start w-full p-2 pl-6 my-2   transition-colors duration-200 border-l-4 ${
-                  currentUrl === "/customer-dashboard/profile" ||
-                  currentUrl === "/customer-dashboard/profile/"
-                    ? "border-purple-500 dark:text-white text-black"
-                    : "border-transparent hover:text-black text-gray-600"
-                }`}
-              >
-                <span className="text-left">
-                  <UserIcon className="w-6 h-6" />
-                </span>
-                <span className="mx-4 text-sm font-normal">Profile</span>
               </Link>
             </div>
           </nav>
