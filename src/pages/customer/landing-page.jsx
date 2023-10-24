@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 const check = {
-  first_name: false,
-  last_name: false,
+  full_name: false,
+
   userPhone: false,
   country: false,
   street: false,
@@ -14,8 +14,7 @@ const check = {
 const form = {
   email: "asd",
   userPhone: "",
-  first_name: "",
-  last_name: "",
+  full_name: "",
 
   country: "",
   street: "",
@@ -58,12 +57,8 @@ function Profile() {
       return;
     }
 
-    if (!editedUserData.first_name) {
-      setError({ ...error, first_name: true });
-      return;
-    }
-    if (!editedUserData.last_name) {
-      setError({ ...error, last_name: true });
+    if (!editedUserData.full_name) {
+      setError({ ...error, full_name: true });
       return;
     }
 
@@ -136,6 +131,30 @@ function Profile() {
                   </div>
                 )}
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                  <div className="sm:col-span-full">
+                    <label
+                      htmlFor="full_name"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Full Name
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        onChange={handleInputChange}
+                        id="full_name"
+                        name="full_name"
+                        type="text"
+                        value={editedUserData.full_name}
+                        disabled={!isEdit}
+                        className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                      />
+                    </div>
+                    {isEdit && error.full_name && (
+                      <p className="text-red-500 text-xs italic mt-1">
+                        Please fill out this field.
+                      </p>
+                    )}
+                  </div>
                   <div className="sm:col-span-3">
                     <label
                       htmlFor="email"
@@ -175,55 +194,6 @@ function Profile() {
                     {isEdit && error.userPhone && (
                       <p className="text-red-500 text-xs italic mt-1">
                         Incorrect Phone Number.
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="sm:col-span-3">
-                    <label
-                      htmlFor="first_name"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Fisrt Name
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        onChange={handleInputChange}
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        value={editedUserData.first_name}
-                        disabled={!isEdit}
-                        className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
-                      />
-                    </div>
-                    {isEdit && error.first_name && (
-                      <p className="text-red-500 text-xs italic mt-1">
-                        Please fill out this field.
-                      </p>
-                    )}
-                  </div>
-                  <div className="sm:col-span-3">
-                    <label
-                      htmlFor="last_name"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Last Name
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        onChange={handleInputChange}
-                        id="last_name"
-                        name="last_name"
-                        type="text"
-                        value={editedUserData.last_name}
-                        disabled={!isEdit}
-                        className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
-                      />
-                    </div>
-                    {isEdit && error.last_name && (
-                      <p className="text-red-500 text-xs italic mt-1">
-                        Please fill out this field.
                       </p>
                     )}
                   </div>
