@@ -124,11 +124,11 @@ function Profile() {
               <form onSubmit={submitHandle}>
                 {!isEdit && (
                   <div className="items-center flex flex-col">
-                    <div className="w-20 h-20 flex justify-center items-center mr-3 text-sm bg-gray-800 rounded-full md:mr-0 ring-2 ring-gray-300 ">
+                    <div className="w-20 h-20 flex justify-center items-center mr-3 text-sm bg-gray-100 rounded-full md:mr-0 ring-2 ring-gray-300 ">
                       <div className="">
                         <img
                           className="w-20 h-20 rounded-full"
-                          // src={photoURL}
+                          src="https://cdn-icons-png.flaticon.com/512/666/666201.png"
                           alt="profile"
                         />
                       </div>
