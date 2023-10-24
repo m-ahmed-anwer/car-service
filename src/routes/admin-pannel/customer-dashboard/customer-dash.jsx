@@ -5,7 +5,7 @@ import LandingPage from "../../../pages/customer/landing-page";
 import FinishedServices from "../../../pages/customer/finished";
 import OngoingService from "../../../pages/customer/ongoing";
 import Services from "../../../pages/customer/new-services";
-import Profile from "../../../pages/customer/profile";
+import NotFoundCustomer from "../../../components/404/notFoundCustomer";
 
 function CustomerRoute() {
   return (
@@ -15,7 +15,7 @@ function CustomerRoute() {
         <Route path="new-service" element={<Services />} />
         <Route path="ongoing-services" element={<OngoingService />} />
         <Route path="finished-services" element={<FinishedServices />} />
-        <Route path="profile" element={<Profile />} />
+        <Route element={<NotFoundCustomer />} path="*" />
       </Route>
     </Routes>
   );

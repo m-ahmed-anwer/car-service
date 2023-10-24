@@ -33,7 +33,7 @@ function App() {
 
         <Route
           path="/customer-dashboard/*"
-          // element={currentUser ? <AdminRoute /> : <Navigate to="/admin" />}
+          // element={currentUser ? <CustomerRoute /> : <Navigate to="/admin" />}
           element={<CustomerRoute />}
         />
       </Route>
