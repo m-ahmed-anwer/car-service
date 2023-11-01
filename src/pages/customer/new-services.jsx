@@ -1,25 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
+import { CustomerContext } from "../../context/customer-details";
 
-const vehicleForm = {
-  brand: "",
-  model: "",
-  yom: "",
-  fuel: "",
-  transmission: "",
-  mileage: "",
-  full_name: "",
-  email: "",
-  phone: "",
-};
+import axios from "axios";
+const API_URL = "http://localhost:8080/api/v1/service";
+
 const check = {
   vehicle: false,
   repair: false,
 };
 
 function Services() {
-  const [data, setData] = useState(vehicleForm);
+  const { currentUser } = useContext(CustomerContext);
+  const [data, setData] = useState(currentUser);
   const [errorCheck, setErrorCheck] = useState(check);
   const [selectedRepair, setSelectedRepair] = useState("");
 
@@ -35,7 +29,7 @@ function Services() {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (!selectedRepair) {
@@ -46,7 +40,7 @@ function Services() {
     }
 
     if (
-      !data.full_name ||
+      !data.fullName ||
       !data.email ||
       !data.phone ||
       !data.brand ||
@@ -60,9 +54,33 @@ function Services() {
       return;
     }
 
-    setErrorCheck(check);
-    console.log("data");
-    console.log(data);
+    try {
+      const userDetails = await axios.post(API_URL, {
+        uid: data.id,
+        data,
+        brand: data.brand,
+        model: data.model,
+        yom: data.yom,
+        fuel: data.fuel,
+        transmission: data.transmission,
+        mileage: data.mileage,
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        street: data.street,
+        country: data.country,
+        city: data.city,
+        state: data.state,
+        zip: data.zip,
+        status: true,
+        repair: selectedRepair,
+      });
+      setErrorCheck(check);
+      setData(currentUser);
+      navigate("/customer-dashboard/services");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   return (
@@ -75,6 +93,13 @@ function Services() {
           Building Futures, Serving Clients Today. Just Drop the Service We Take
           All Responsible.
         </h2>
+        <h3 className="mt-2 text-gray-700">
+          If you have any changes on you details{" "}
+          <Link to={"/customer-dashboard"} className="text-blue-500">
+            Click Here
+          </Link>{" "}
+          to change the details.
+        </h3>
 
         <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-lg bg-white p-8 shadow-lg col-span-3 lg:p-12">
@@ -85,8 +110,9 @@ function Services() {
                   className="p-3 text-sm h-10 border mt-1 rounded-md px-4 w-full bg-gray-50"
                   placeholder="Name"
                   type="text"
-                  name="full_name"
-                  value={data.full_name}
+                  name="fullName"
+                  disabled
+                  value={data.fullName}
                   onChange={handleChange}
                 />
               </div>
@@ -100,6 +126,7 @@ function Services() {
                     type="email"
                     name="email"
                     value={data.email}
+                    disabled
                     onChange={handleChange}
                   />
                 </div>
@@ -111,6 +138,7 @@ function Services() {
                     placeholder="Phone Number"
                     type="tel"
                     value={data.phone}
+                    disabled
                     name="phone"
                     onChange={handleChange}
                   />
@@ -194,6 +222,7 @@ function Services() {
                     placeholder="Brand"
                     type="text"
                     value={data.brand}
+                    disabled
                     name="brand"
                     onChange={handleChange}
                   />
@@ -205,6 +234,7 @@ function Services() {
                     placeholder="Model"
                     type="text"
                     value={data.model}
+                    disabled
                     name="model"
                     onChange={handleChange}
                   />
@@ -219,6 +249,7 @@ function Services() {
                     placeholder="YOM"
                     type="number"
                     value={data.yom}
+                    disabled
                     name="yom"
                     onChange={handleChange}
                   />
@@ -230,6 +261,7 @@ function Services() {
                     placeholder="Mileage"
                     type="number"
                     value={data.mileage}
+                    disabled
                     onChange={handleChange}
                     name="mileage"
                   />
@@ -245,6 +277,7 @@ function Services() {
                     type="text"
                     value={data.fuel}
                     onChange={handleChange}
+                    disabled
                     name="fuel"
                   />
                 </div>
@@ -256,6 +289,7 @@ function Services() {
                     type="text"
                     name="transmission"
                     value={data.transmission}
+                    disabled
                     onChange={handleChange}
                   />
                 </div>

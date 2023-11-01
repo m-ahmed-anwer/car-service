@@ -42,7 +42,7 @@ const Dashboard = () => {
 
                   <span className="w-1 h-8 bg-gray-200 rounded-lg "></span>
                   <div className="flex items-center text-gray-500 dark:text-white text-md">
-                    Charlie R
+                    Admin
                   </div>
                   <div className="relative block">
                     <img

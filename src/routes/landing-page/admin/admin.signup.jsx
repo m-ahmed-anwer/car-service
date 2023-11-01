@@ -8,8 +8,10 @@ import {
 import React, { useState } from "react";
 import Navbar from "../../../components/navbar/navbar";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+const API_URL = "http://localhost:8080/api/v1/admin";
+
 const formData = {
-  key: "",
   username: "",
   password: "",
 };
@@ -21,6 +23,7 @@ const check = {
 };
 function AdminSignUp() {
   const secretKey = "ahmed11";
+  const [key, setKey] = useState("");
 
   const [showPass, setShowPass] = useState(false);
   const [data, setData] = useState(formData);
@@ -31,10 +34,10 @@ function AdminSignUp() {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    if (data.key !== secretKey) {
+    if (key !== secretKey) {
       setErrorCheck({ ...errorCheck, key: true });
       return;
     }
@@ -46,9 +49,16 @@ function AdminSignUp() {
       setErrorCheck({ ...errorCheck, password: true });
       return;
     }
-    setErrorCheck(check);
-    console.log(data);
-    navigate("/admin-signup");
+
+    try {
+      const userDetails = await axios.post(API_URL, data);
+      setErrorCheck(check);
+      setData(formData);
+      setKey("");
+      navigate("/admin");
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
   };
 
   return (
@@ -76,8 +86,10 @@ function AdminSignUp() {
                   name="key"
                   className="w-full rounded-lg mt-2 border-gray-200  border p-3 pe-8 text-sm shadow-sm"
                   placeholder="Enter key"
-                  value={data.key}
-                  onChange={handleChange}
+                  value={key}
+                  onChange={(event) => {
+                    setKey(event.target.value);
+                  }}
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">

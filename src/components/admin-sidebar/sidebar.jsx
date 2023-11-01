@@ -37,20 +37,7 @@ function Sidebar() {
                 </span>
                 <span className="mx-2 text-sm font-normal">Home</span>
               </Link>
-              <Link
-                to={"services"}
-                className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 border-l-4 ${
-                  currentUrl === "/admin-dashboard/services" ||
-                  currentUrl === "/admin-dashboard/services/"
-                    ? "border-purple-500 dark:text-white text-black"
-                    : "border-transparent hover:text-black  text-gray-600"
-                }`}
-              >
-                <span className="text-left">
-                  <WrenchScrewdriverIcon className="w-6 h-6" />
-                </span>
-                <span className="mx-2 text-sm font-normal">Services</span>
-              </Link>
+
               <Link
                 to={"ongoing-services"}
                 className={`flex items-center justify-start w-full p-2 pl-6 my-2 transition-colors duration-200 border-l-4 ${
@@ -61,7 +48,7 @@ function Sidebar() {
                 }`}
               >
                 <span className="text-left">
-                  <AdjustmentsVerticalIcon className="w-6 h-6" />
+                  <WrenchScrewdriverIcon className="w-6 h-6" />
                 </span>
                 <span className="mx-4 text-sm font-normal">
                   Ongoing Services

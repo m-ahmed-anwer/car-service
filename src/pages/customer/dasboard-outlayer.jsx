@@ -1,16 +1,25 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import {
   Bars3Icon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { Outlet, useNavigate } from "react-router-dom";
 import CustomerSidebar from "../../components/customer-sidebar/customer-sidebar";
+import { CustomerContext } from "../../context/customer-details";
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
   const logout = () => {
+    setCurrentUser(null);
     navigate("/");
   };
+
+  useEffect(() => {
+    
+  }, []);
+
+  const { currentUser, setCurrentUser } = useContext(CustomerContext);
+
   return (
     <Fragment>
       <main className="relative h-screen overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -40,9 +49,12 @@ const CustomerDashboard = () => {
                   </div>
 
                   <span className="w-1 h-8 bg-gray-200 rounded-lg "></span>
-                  <div className="flex items-center text-gray-500 dark:text-white text-md">
-                    Charlie R
-                  </div>
+                  {currentUser && (
+                    <div className="flex items-center text-gray-500 dark:text-white text-md">
+                      {currentUser.fullName}
+                    </div>
+                  )}
+
                   <div className="relative block">
                     <img
                       src="https://cdn-icons-png.flaticon.com/512/666/666201.png"

@@ -1,11 +1,14 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
-export const AdminContext = createContext({
+const API_URL = "http://localhost:8080/api/v1/users";
+
+export const CustomerContext = createContext({
   currentUser: null,
   setCurrentUser: () => null,
 });
 
-export const AdminProvider = ({ children }) => {
+export const CustomerProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,9 +17,10 @@ export const AdminProvider = ({ children }) => {
     setCurrentUser,
     isLoading,
   };
-  useEffect(() => {}, []);
 
   return (
-    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
+    <CustomerContext.Provider value={value}>
+      {children}
+    </CustomerContext.Provider>
   );
 };

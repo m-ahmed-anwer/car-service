@@ -3,7 +3,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
-
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import Navbar from "../../../components/navbar/navbar";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const formData = {
   username: "",
   password: "",
 };
+const API_URL = "http://localhost:8080/api/v1/admin/login";
 
 const check = {
   username: false,
@@ -19,16 +20,16 @@ const check = {
 };
 function Admin() {
   const [showPass, setShowPass] = useState(false);
+  const { setCurrentUser } = useContext(AdminContext);
   const [data, setData] = useState(formData);
   const [errorCheck, setErrorCheck] = useState(check);
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(AdminContext);
 
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (!data.username) {
@@ -40,9 +41,14 @@ function Admin() {
       return;
     }
 
-    setCurrentUser(data);
-    setErrorCheck(check);
-    navigate("/admin-dashboard");
+    try {
+      const userDetails = await axios.post(API_URL, data);
+      setCurrentUser(userDetails.data);
+      setErrorCheck(check);
+      navigate("/admin-dashboard");
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
   };
 
   return (

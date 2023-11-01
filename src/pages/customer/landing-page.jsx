@@ -1,32 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { CustomerContext } from "../../context/customer-details";
+import axios from "axios";
+const API_URL = "http://localhost:8080/api/v1/users/";
 
 const check = {
-  full_name: false,
-
-  userPhone: false,
+  fullName: false,
+  phone: false,
   country: false,
   street: false,
   city: false,
   state: false,
   zip: false,
-};
-const form = {
-  email: "asd",
-  userPhone: "",
-  full_name: "",
-
-  country: "",
-  street: "",
-  city: "",
-  state: "",
-  zip: "",
+  brand: false,
+  model: false,
+  yom: false,
+  fuel: false,
+  transmission: false,
+  mileage: false,
 };
 
 function Profile() {
   const [isEdit, setIsEdit] = useState(false);
+  const { currentUser, setCurrentUser } = useContext(CustomerContext);
 
-  const [editedUserData, setEditedUserData] = useState(form);
+  const [editedUserData, setEditedUserData] = useState(currentUser);
   const [error, setError] = useState(check);
 
   useEffect(() => {}, []);
@@ -52,13 +50,13 @@ function Profile() {
   const submitHandle = async (event) => {
     event.preventDefault();
 
-    if (!isValidPhoneNumber(editedUserData.userPhone)) {
-      setError({ ...error, userPhone: true });
+    if (!isValidPhoneNumber(editedUserData.phone)) {
+      setError({ ...error, phone: true });
       return;
     }
 
-    if (!editedUserData.full_name) {
-      setError({ ...error, full_name: true });
+    if (!editedUserData.fullName) {
+      setError({ ...error, fullName: true });
       return;
     }
 
@@ -82,7 +80,46 @@ function Profile() {
       setError({ ...error, zip: true });
       return;
     }
-    alert("Hello");
+    if (!editedUserData.brand) {
+      setError({ ...error, brand: true });
+      return;
+    }
+
+    if (!editedUserData.model) {
+      setError({ ...error, model: true });
+      return;
+    }
+
+    if (!editedUserData.yom) {
+      setError({ ...error, yom: true });
+      return;
+    }
+
+    if (!editedUserData.fuel) {
+      setError({ ...error, fuel: true });
+      return;
+    }
+
+    if (!editedUserData.transmission) {
+      setError({ ...error, transmission: true });
+      return;
+    }
+
+    if (!editedUserData.mileage) {
+      setError({ ...error, mileage: true });
+      return;
+    }
+
+    try {
+      const userDetails = await axios.put(
+        API_URL + `${currentUser.id}`,
+        editedUserData
+      );
+      setCurrentUser(editedUserData);
+      setIsEdit(!isEdit);
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
   };
 
   const cancelHandle = () => {
@@ -93,7 +130,7 @@ function Profile() {
     <>
       <section className="h-screen px-4 pb-24 overflow-auto md:px-6 ">
         <h1 className="text-4xl font-semibold text-gray-800 dark:text-white">
-          Hello Ahmed!
+          Hello {currentUser && currentUser.fullName}
         </h1>
 
         <h2 className="text-gray-400 text-md">
@@ -133,7 +170,7 @@ function Profile() {
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-full">
                     <label
-                      htmlFor="full_name"
+                      htmlFor="fullName"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Full Name
@@ -141,15 +178,15 @@ function Profile() {
                     <div className="mt-2">
                       <input
                         onChange={handleInputChange}
-                        id="full_name"
-                        name="full_name"
+                        id="fullName"
+                        name="fullName"
                         type="text"
-                        value={editedUserData.full_name}
+                        value={editedUserData.fullName}
                         disabled={!isEdit}
                         className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
                       />
                     </div>
-                    {isEdit && error.full_name && (
+                    {isEdit && error.fullName && (
                       <p className="text-red-500 text-xs italic mt-1">
                         Please fill out this field.
                       </p>
@@ -175,7 +212,7 @@ function Profile() {
                   </div>
                   <div className="sm:col-span-3">
                     <label
-                      htmlFor="userPhone"
+                      htmlFor="phone"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Phone Number
@@ -183,15 +220,15 @@ function Profile() {
                     <div className="mt-2">
                       <input
                         onChange={handleInputChange}
-                        id="userPhone"
-                        name="userPhone"
+                        id="phone"
+                        name="phone"
                         type="number"
-                        value={editedUserData.userPhone}
+                        value={editedUserData.phone}
                         disabled={!isEdit}
                         className=" px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
                       />
                     </div>
-                    {isEdit && error.userPhone && (
+                    {isEdit && error.phone && (
                       <p className="text-red-500 text-xs italic mt-1">
                         Incorrect Phone Number.
                       </p>
@@ -322,6 +359,156 @@ function Profile() {
                         />
                       </div>
                       {isEdit && error.zip && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <h6 className="text-blueGray-400 text-md mt-11 mb-4  uppercase">
+                    Vehicle details
+                  </h6>
+                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="brand"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Brand
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="brand"
+                          name="brand"
+                          type="text"
+                          value={editedUserData.brand}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.brand && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="model"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Model
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="model"
+                          name="model"
+                          type="text"
+                          value={editedUserData.model}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.model && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="yom"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Year of Manufacture
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="yom"
+                          name="yom"
+                          type="number"
+                          value={editedUserData.yom}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.yom && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="fuel"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Fuel Type
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="fuel"
+                          name="fuel"
+                          type="text"
+                          value={editedUserData.fuel}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.fuel && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="transmission"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Transmission
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="transmission"
+                          name="transmission"
+                          type="text"
+                          value={editedUserData.transmission}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.transmission && (
+                        <p className="text-red-500 text-xs italic mt-1">
+                          Please fill out this field.
+                        </p>
+                      )}
+                    </div>
+                    <div className="sm:col-span-3">
+                      <label
+                        htmlFor="mileage"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Mileage
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          onChange={handleInputChange}
+                          id="mileage"
+                          name="mileage"
+                          type="number"
+                          value={editedUserData.mileage}
+                          disabled={!isEdit}
+                          className="px-2 block w-full rounded-md border-0 py-1.5  text-gray-900  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 shadow-md"
+                        />
+                      </div>
+                      {isEdit && error.mileage && (
                         <p className="text-red-500 text-xs italic mt-1">
                           Please fill out this field.
                         </p>

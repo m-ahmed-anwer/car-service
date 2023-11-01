@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import axios from "axios";
 import {
   AtSymbolIcon,
   EyeIcon,
@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../../components/navbar/navbar";
+import { CustomerContext } from "../../../context/customer-details";
 const formData = {
   email: "",
   password: "",
@@ -15,8 +16,10 @@ const check = {
   email: false,
   password: false,
 };
+const API_URL = "http://localhost:8080/api/v1/users/login";
 
 function Login() {
+  const { setCurrentUser } = useContext(CustomerContext);
   const [data, setData] = useState(formData);
   const [showPass, setShowPass] = useState(false);
   const [errorCheck, setErrorCheck] = useState(check);
@@ -33,7 +36,7 @@ function Login() {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     if (!isEmailValid(data.email)) {
       setErrorCheck({ ...errorCheck, email: true });
@@ -44,9 +47,15 @@ function Login() {
       setErrorCheck({ ...errorCheck, password: true });
       return;
     }
-    setErrorCheck(check);
-    console.log(data);
-    navigate("/customer-dashboard/");
+
+    try {
+      const userDetails = await axios.post(API_URL, data);
+      setCurrentUser(userDetails.data);
+      setErrorCheck(check);
+      navigate("/customer-dashboard/");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
   return (
     <>

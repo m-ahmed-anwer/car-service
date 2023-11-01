@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/navbar/navbar";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../components/modal/modal";
+import axios from "axios";
+
+const API_URL = "http://localhost:8080/api/v1/users";
 
 const vehicleForm = {
   brand: "",
@@ -10,7 +12,7 @@ const vehicleForm = {
   fuel: "",
   transmission: "",
   mileage: "",
-  full_name: "",
+  fullName: "",
   email: "",
   phone: "",
   street: "",
@@ -41,7 +43,7 @@ function SignUp() {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     if (
@@ -58,7 +60,7 @@ function SignUp() {
     }
 
     if (
-      !data.full_name ||
+      !data.fullName ||
       !data.email ||
       !data.phone ||
       !data.street ||
@@ -82,12 +84,14 @@ function SignUp() {
       return;
     }
 
-    setErrorCheck(check);
-    setOpen(true);
-
-    console.log("first");
+    try {
+      await axios.post(API_URL, data);
+      setErrorCheck(check);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -198,10 +202,10 @@ function SignUp() {
                     <label>Full Name</label>
                     <input
                       type="text"
-                      name="full_name"
+                      name="fullName"
                       placeholder="Graham Bell"
                       className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      value={data.full_name}
+                      value={data.fullName}
                       onChange={handleChange}
                     />
                   </div>
